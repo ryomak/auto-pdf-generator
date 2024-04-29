@@ -1,0 +1,10 @@
+.idea
+*.pdf
+*.swp
+cmd/desktop/frontend/node_modules/*
+cmd/desktop/frontend/dist/*
+cmd/desktop/build/bin/*
+cmd/desktop/build/darwin
+cmd/desktop/build/windows
+bin/**
+!/bin/.gitkeep
