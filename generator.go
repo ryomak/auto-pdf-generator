@@ -35,11 +35,22 @@ func New(
 	page int,
 	options ...Option,
 ) (*PDFGenerator, error) {
+	screen := robotgo.GetScreenRect()
 	generator := &PDFGenerator{
 		outputFileName:    outputFileName,
+		page:              page,
 		pageMoveDuration:  200,
 		resetPageDuration: 30,
+		nextAction:        ActionDown,
 		sayMutex:          sync.Mutex{},
+		rect: &Rect{
+			X:         screen.X,
+			Y:         screen.Y,
+			Width:     screen.W,
+			Height:    screen.H,
+			isSupport: true,
+		},
+		appName: "Kindle",
 	}
 	for _, option := range options {
 		if err := option(generator); err != nil {
@@ -47,28 +58,11 @@ func New(
 		}
 	}
 
-	// Default Setting
-	if generator.nextAction == "" {
-		generator.nextAction = ActionDown
-	}
-	if page == 0 {
+	if generator.page == 0 {
 		return nil, errors.New("invalid page")
 	}
-	generator.page = page
-
-	if generator.rect == nil {
-		screen := robotgo.GetScreenRect()
-		generator.rect = &Rect{
-			X:         screen.X,
-			Y:         screen.Y,
-			Width:     screen.W,
-			Height:    screen.H,
-			isSupport: true,
-		}
-	}
-
-	if generator.appName == "" {
-		generator.appName = "Kindle"
+	if generator.outputFileName == "" {
+		return nil, errors.New("invalid outputFileName")
 	}
 
 	return generator, nil

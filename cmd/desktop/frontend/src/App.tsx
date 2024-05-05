@@ -19,7 +19,7 @@ function App() {
 
     const handleExecute = async () => {
         try {
-            const response = await Execute(output, page, nextAction, split, appName,2000,"")
+            const response = await Execute(output, page, nextAction, split, appName,slideDuration,"")
             setResult(response)
         } catch (e) {
             setResult('エラーが発生しました')
